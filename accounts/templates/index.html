@@ -1,0 +1,42 @@
+{% extends "layouts.html" %}
+{% load static %}
+{% block content%}
+
+    <div class="row g-5  justify-content-center">
+
+      <div class="col-md-7 col-lg-8">
+      <form class="needs-validation" action="{% url 'login' %}" novalidate method="post">
+        {% csrf_token %}
+          <div class="row g-3 justify-content-center">
+
+            <div class="col-6">
+              <label for="email" class="form-label">User Name <span class="text-muted">(Required)</span></label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">@</span>
+                <input type="text" class="form-control" name="username" id="username" placeholder="example@email.com" required>
+                <div class="invalid-feedback">
+                  You entered wrong Email.
+                </div>
+              </div>
+              <br>
+              <div class="col-12">
+                <label for="address" class="form-label">Password</label>
+                <input type="password"  name="password" class="form-control" id="address"  required>
+                <div class="invalid-feedback">
+                  You entered wrong Password.
+                </div>
+              </div>
+            </div>
+          </div>
+            <br>
+            <div class="col-12 text-center ">
+              <button class="btn btn-primary btn-lg" type="submit">Continue to Login</button>
+              <br><br>
+              <p>Don't have account register <a href="{%url 'register'%}">here?</a> </p>
+            </div>
+        </form>
+      </div>
+    </div>
+
+
+{% endblock %}
