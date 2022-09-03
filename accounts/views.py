@@ -7,9 +7,6 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-@login_required(login_url ='login')
-def index(request):
-    return render(request, "home.html", {'Title' : 'Site api Home page'} )
 
 def login(request):
     if request.method == 'POST':
@@ -53,6 +50,16 @@ def register(request):
 
 
     return render(request, "register.html", {'Title' : 'Site api Registration'})
+
+
+@login_required(login_url ='login')
+def index(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        return render(request, "home.html", {'Title' : 'Site api Home page'} )
+
+
 
 def api_list(request):
     pass
