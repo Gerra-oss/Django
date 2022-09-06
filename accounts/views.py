@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import requires_csrf_token
 from django.contrib.auth.decorators import login_required
 
@@ -10,12 +11,12 @@ from django.contrib.auth.decorators import login_required
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        user = auth.authenticate(request, username = username, password = password)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username = username, password = password)
 
         if user is not None and user.is_active:
-            auth.login(request, user)
+            login(request, user)
             return redirect('dashboard')
         else:
             messages.info(request, 'Invalid credentials')
@@ -25,8 +26,9 @@ def login(request):
         return render(request, "index.html", {'Title' : 'Site api Login'})
 
 def logout(request):
-    auth.logout(request)
+    logout(request)
     return redirect('login')
+
 
 @requires_csrf_token
 def register(request):
@@ -54,12 +56,11 @@ def register(request):
 
 @login_required(login_url ='login')
 def index(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        return render(request, "home.html", {'Title' : 'Site api Home page'} )
+        if not request.user.is_authenticated:
+            return redirect('login')
 
-
+        else:
+            return render(request, "home.html", {'Title' : 'Site api dashboard'})
 
 def api_list(request):
     pass
