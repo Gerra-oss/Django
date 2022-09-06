@@ -16,7 +16,7 @@ def login(request):
         user = authenticate(request, username = username, password = password)
 
         if user is not None and user.is_active:
-            login(request, user)
+            auth.login(request, user)
             return redirect('dashboard')
         else:
             messages.info(request, 'Invalid credentials')
@@ -26,7 +26,7 @@ def login(request):
         return render(request, "index.html", {'Title' : 'Site api Login'})
 
 def logout(request):
-    logout(request)
+    auth.logout(request)
     return redirect('login')
 
 
